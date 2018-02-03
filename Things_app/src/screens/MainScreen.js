@@ -5,20 +5,28 @@ import {
   Modal,
   StyleSheet,
   Dimensions,
-  Button
+  Button,
+  TouchableWithoutFeedback
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-// import Icon from "react-native-vector-icons/Ionicons";
 import ActionButton from "react-native-action-button";
+
+import TodoModal from "../components/TodoModal";
 
 var screen = Dimensions.get("window");
 export default class extends Component {
+  constructor(props) {
+    super(props);
+
+    // this.openTodoModal = this.openTodoModal.bind(this);
+  }
   static navigationOptions = {
     title: "Things"
   };
 
   state = {
-    modalVisible: false
+    modalVisible: false,
+    modalTodoVisible: false
   };
 
   openModal() {
@@ -27,6 +35,10 @@ export default class extends Component {
 
   closeModal() {
     this.setState({ modalVisible: false });
+  }
+
+  openTodoModal() {
+    this.refs.todoModal.openToDoModal();
   }
 
   render() {
@@ -64,6 +76,7 @@ export default class extends Component {
           }}
           elevation={10}
         />
+
         <Modal
           transparent
           visible={this.state.modalVisible}
@@ -73,23 +86,30 @@ export default class extends Component {
           <View style={styles.modalContainer}>
             <View style={styles.innerContainer}>
               <View style={styles.modalView}>
-                <View style={styles.mainSingleModal}>
-                  <View style={styles.modalIcon}>
-                    <Icon name="plus" size={20} color="#69D7E7" />
+                <TouchableWithoutFeedback
+                  onPress={() => {
+                    this.openTodoModal();
+                    this.closeModal();
+                  }}
+                >
+                  <View style={styles.mainSingleModal}>
+                    <View style={styles.modalIcon}>
+                      <Icon name="plus" size={20} color="#97CDF9" />
+                    </View>
+                    <View style={styles.modalText}>
+                      <Text style={styles.modalTextTitle}>New To-Do</Text>
+                      <Text style={styles.modalSubtext}>
+                        Quickly add a todo to your inbox
+                      </Text>
+                    </View>
                   </View>
-                  <View style={styles.modalText}>
-                    <Text style={styles.modalTextTitle}>New To-Do</Text>
-                    <Text style={styles.modalSubtext}>
-                      Quickly add a todo to your inbox
-                    </Text>
-                  </View>
-                </View>
+                </TouchableWithoutFeedback>
 
                 <View style={styles.mainSingleModal}>
                   <View style={styles.modalIcon}>
-                    <Icon name="edit" size={20} color="#69D7E7" />
+                    <Icon name="edit" size={20} color="#97CDF9" />
                   </View>
-                  <View style={styles.modalText}>
+                  <View style={styles.editModalText}>
                     <Text style={styles.modalTextTitle}>New Section</Text>
                     <Text style={styles.modalSubtext}>
                       Define a goal, then work towords it one to-do at a time
@@ -99,7 +119,7 @@ export default class extends Component {
 
                 <View style={styles.mainSingleModal}>
                   <View style={styles.modalIcon}>
-                    <Icon name="file-o" size={18} color="#69D7E7" />
+                    <Icon name="file-o" size={18} color="#97CDF9" />
                   </View>
                   <View style={styles.modalText}>
                     <Text style={styles.modalTextTitle}>New Project</Text>
@@ -113,6 +133,8 @@ export default class extends Component {
             </View>
           </View>
         </Modal>
+
+        <TodoModal ref={"todoModal"} />
       </View>
     );
   }
@@ -183,6 +205,11 @@ const styles = StyleSheet.create({
   modalText: {
     flexDirection: "column",
     marginLeft: 16,
+    justifyContent: "space-around"
+  },
+  editModalText: {
+    flexDirection: "column",
+    marginLeft: 12,
     justifyContent: "space-around"
   },
   modalTextTitle: {
