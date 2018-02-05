@@ -9,7 +9,8 @@ import {
   Dimensions,
   TouchableHighlight,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -48,9 +49,17 @@ export default class TodoModal extends Component {
           <View style={styles.innerContainer}>
             <View style={styles.modalView}>
               <View
-                style={{ flexDirection: "row", justifyContent: "flex-end" }}
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "flex-end"
+                }}
               >
-                <Icon name="close" size={24} color="#CCCCCC" />
+                <Icon
+                  name="close"
+                  size={24}
+                  color="#CCCCCC"
+                  onPress={() => this.closeToDoModal()}
+                />
               </View>
 
               <View style={{ flexDirection: "row" }}>
@@ -63,13 +72,17 @@ export default class TodoModal extends Component {
                   />
                 </View>
                 <View
-                  style={{ flexDirection: "column", marginLeft: 10, flex: 1 }}
+                  style={{
+                    flexDirection: "column",
+                    marginLeft: 10,
+                    flex: 1
+                  }}
                 >
                   <TextInput
                     underlineColorAndroid="transparent"
                     placeholder="New To-Do"
                     style={{
-                      fontSize: 22,
+                      fontSize: 20,
                       padding: 0
                     }}
                     multiline={true}
@@ -80,7 +93,11 @@ export default class TodoModal extends Component {
                   <TextInput
                     placeholder="Notes"
                     multiline={true}
-                    style={{ fontSize: 20, paddingTop: 6, color: "#333333" }}
+                    style={{
+                      fontSize: 18,
+                      paddingTop: 6,
+                      color: "#404040"
+                    }}
                     underlineColorAndroid="transparent"
                   />
                 </View>
@@ -123,7 +140,7 @@ export default class TodoModal extends Component {
                 accessibilityLabel="Save Your ToDo"
                 style={{ padding: 0, borderRadius: 8 }}
               /> */}
-              <TouchableOpacity style={styles.button} onPress={this.onPress}>
+              <TouchableOpacity style={styles.button} onPress={this.saveTodo}>
                 <Text style={{ color: "#FFF", fontSize: 20 }}> Save</Text>
               </TouchableOpacity>
             </View>
