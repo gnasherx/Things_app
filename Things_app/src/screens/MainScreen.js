@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Dimensions,
   Button,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  TextInput
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ActionButton from "react-native-action-button";
@@ -14,6 +15,7 @@ import ActionButton from "react-native-action-button";
 import TodoModal from "../components/TodoModal";
 
 var screen = Dimensions.get("window");
+
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -105,30 +107,34 @@ export default class extends Component {
                   </View>
                 </TouchableWithoutFeedback>
 
-                <View style={styles.mainSingleModal}>
-                  <View style={styles.modalIcon}>
-                    <Icon name="edit" size={20} color="#97CDF9" />
+                <TouchableWithoutFeedback>
+                  <View style={styles.mainSingleModal}>
+                    <View style={styles.modalIcon}>
+                      <Icon name="edit" size={20} color="#97CDF9" />
+                    </View>
+                    <View style={styles.editModalText}>
+                      <Text style={styles.modalTextTitle}>New Section</Text>
+                      <Text style={styles.modalSubtext}>
+                        Define a goal, then work towords it one to-do at a time
+                      </Text>
+                    </View>
                   </View>
-                  <View style={styles.editModalText}>
-                    <Text style={styles.modalTextTitle}>New Section</Text>
-                    <Text style={styles.modalSubtext}>
-                      Define a goal, then work towords it one to-do at a time
-                    </Text>
-                  </View>
-                </View>
+                </TouchableWithoutFeedback>
 
-                <View style={styles.mainSingleModal}>
-                  <View style={styles.modalIcon}>
-                    <Icon name="file-o" size={18} color="#97CDF9" />
+                <TouchableWithoutFeedback>
+                  <View style={styles.mainSingleModal}>
+                    <View style={styles.modalIcon}>
+                      <Icon name="file-o" size={18} color="#97CDF9" />
+                    </View>
+                    <View style={styles.modalText}>
+                      <Text style={styles.modalTextTitle}>New Project</Text>
+                      <Text style={styles.modalSubtext}>
+                        Group projects and to-dos based on different
+                        responsibilites, such as Family or Work
+                      </Text>
+                    </View>
                   </View>
-                  <View style={styles.modalText}>
-                    <Text style={styles.modalTextTitle}>New Project</Text>
-                    <Text style={styles.modalSubtext}>
-                      Group projects and to-dos based on different
-                      responsibilites, such as Family or Work
-                    </Text>
-                  </View>
-                </View>
+                </TouchableWithoutFeedback>
               </View>
             </View>
           </View>
@@ -177,14 +183,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-end",
-    backgroundColor: "rgba(0,0,0,0.2)",
-    borderRadius: 10
+    backgroundColor: "rgba(0,0,0,0.2)"
   },
   innerContainer: {
     backgroundColor: "#333333",
     elevation: 6,
     width: screen.width - 42,
-    // marginRight: 16,
     marginBottom: 18,
     borderRadius: 8
   },
