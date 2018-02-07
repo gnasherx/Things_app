@@ -13,13 +13,18 @@ import {
   ScrollView
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Api } from "../../constants/api";
 
 var screen = Dimensions.get("window");
+
+const api = new Api();
 
 export default class TodoModal extends Component {
   state = {
     modalTodoVisible: false,
-    modalVisible: false
+    modalVisible: false,
+    title: "",
+    description: ""
   };
 
   openToDoModal() {
@@ -33,6 +38,22 @@ export default class TodoModal extends Component {
   saveTodo() {
     alert("Saved");
   }
+
+  _changeTitle = title => this.setState({ title });
+
+  _changeDescription = description => this.setState({ description });
+
+  _createToDo = async () => {
+    const { title, description } = this.state;
+
+    if ((title, description)) {
+      const res = await api.createTodo({
+        title,
+        description
+      });
+      this.closeToDoModal();
+    }
+  };
 
   render() {
     return (
@@ -89,6 +110,8 @@ export default class TodoModal extends Component {
                     ref={input => {
                       this.textInput = input;
                     }}
+                    onChangeText={this._changeTitle}
+                    value={this.state.title}
                   />
                   <TextInput
                     placeholder="Notes"
@@ -99,6 +122,8 @@ export default class TodoModal extends Component {
                       color: "#404040"
                     }}
                     underlineColorAndroid="transparent"
+                    onChangeText={this._changeDescription}
+                    value={this.state.description}
                   />
                 </View>
               </View>
@@ -133,14 +158,10 @@ export default class TodoModal extends Component {
                   Inbox
                 </Text>
               </View>
-              {/* <Button
-                onPress={this.saveTodo}
-                title="Save"
-                color="#CEA0AE"
-                accessibilityLabel="Save Your ToDo"
-                style={{ padding: 0, borderRadius: 8 }}
-              /> */}
-              <TouchableOpacity style={styles.button} onPress={this.saveTodo}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this._createToDo}
+              >
                 <Text style={{ color: "#FFF", fontSize: 20 }}> Save</Text>
               </TouchableOpacity>
             </View>
