@@ -7,12 +7,15 @@ import {
   Dimensions,
   Button,
   TouchableWithoutFeedback,
-  TextInput
+  TextInput,
+  Animated
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ActionButton from "react-native-action-button";
 
 import TodoModal from "../components/TodoModal";
+import Swipeable from "../components/Swipeable";
+import Today from "./Today";
 
 var screen = Dimensions.get("window");
 
@@ -51,10 +54,14 @@ export default class extends Component {
           <Text style={styles.text}>Inbox</Text>
         </View>
 
-        <View style={styles.todo}>
-          <Icon name="star" size={24} color="#FFC53A" />
-          <Text style={styles.text}>Today</Text>
-        </View>
+        <TouchableWithoutFeedback
+          onPress={() => this.props.navigation.navigate("Today")}
+        >
+          <View style={styles.todo}>
+            <Icon name="star" size={24} color="#FFC53A" />
+            <Text style={styles.text}>Today</Text>
+          </View>
+        </TouchableWithoutFeedback>
 
         <View style={styles.todo}>
           <Icon name="clock-o" size={24} color="#8268FC" />
@@ -76,9 +83,9 @@ export default class extends Component {
           onPress={() => {
             this.openModal();
           }}
-          elevation={10}
         />
 
+        {/* <Swipeable> */}
         <Modal
           transparent
           visible={this.state.modalVisible}
@@ -139,6 +146,7 @@ export default class extends Component {
             </View>
           </View>
         </Modal>
+        {/* </Swipeable> */}
 
         <TodoModal ref={"todoModal"} />
       </View>
