@@ -16,6 +16,11 @@ class Api {
       throw error;
     }
   }
+
+  async fethAllTodos() {
+    const { data } = await axios.get(`${this.path}/todos`);
+    return data;
+  }
 }
 
 export { Api };
