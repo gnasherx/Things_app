@@ -8,13 +8,15 @@ import {
   Button,
   TouchableWithoutFeedback,
   TextInput,
-  Animated
+  Animated,
+  ScrollView
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ActionButton from "react-native-action-button";
 
 import TodoModal from "../components/TodoModal";
-import Swipeable from "../components/Swipeable";
+import SectionModal from "../components/SectionModal";
+// import Swipeable from "../components/Swipeable";
 import Today from "./Today";
 
 var screen = Dimensions.get("window");
@@ -45,47 +47,44 @@ export default class extends Component {
   openTodoModal() {
     this.refs.todoModal.openToDoModal();
   }
+  openSectionModal() {
+    this.refs.sectionModal.openSectionModal();
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.inbox}>
-          <Icon name="inbox" size={24} color="#2196F3" />
-          <Text style={styles.text}>Inbox</Text>
-        </View>
-
-        <TouchableWithoutFeedback
-          onPress={() => this.props.navigation.navigate("Today")}
-        >
-          <View style={styles.todo}>
-            <Icon name="star" size={24} color="#FFC53A" />
-            <Text style={styles.text}>Today</Text>
+        <ScrollView>
+          <View style={styles.inbox}>
+            <Icon name="inbox" size={24} color="#2196F3" />
+            <Text style={styles.text}>Inbox</Text>
           </View>
-        </TouchableWithoutFeedback>
 
-        <View style={styles.todo}>
-          <Icon name="clock-o" size={24} color="#8268FC" />
-          <Text style={styles.text}>Upcoming</Text>
-        </View>
+          <TouchableWithoutFeedback
+            onPress={() => this.props.navigation.navigate("Today")}
+          >
+            <View style={styles.todo}>
+              <Icon name="star" size={24} color="#FFC53A" />
+              <Text style={styles.text}>Today</Text>
+            </View>
+          </TouchableWithoutFeedback>
 
-        <View style={styles.todo}>
-          <Icon name="calendar" size={20} color="#EB3569" />
-          <Text style={styles.text}>Anytime</Text>
-        </View>
+          <View style={styles.todo}>
+            <Icon name="clock-o" size={24} color="#8268FC" />
+            <Text style={styles.text}>Upcoming</Text>
+          </View>
 
-        <View style={styles.todo}>
-          <Icon name="book" size={20} color="#3BD2A2" />
-          <Text style={styles.text}>Logbook</Text>
-        </View>
+          <View style={styles.todo}>
+            <Icon name="calendar" size={20} color="#EB3569" />
+            <Text style={styles.text}>Anytime</Text>
+          </View>
 
-        <ActionButton
-          buttonColor="#8268FC"
-          onPress={() => {
-            this.openModal();
-          }}
-        />
+          <View style={styles.todo}>
+            <Icon name="book" size={20} color="#3BD2A2" />
+            <Text style={styles.text}>Logbook</Text>
+          </View>
+        </ScrollView>
 
-        {/* <Swipeable> */}
         <Modal
           transparent
           visible={this.state.modalVisible}
@@ -114,7 +113,12 @@ export default class extends Component {
                   </View>
                 </TouchableWithoutFeedback>
 
-                <TouchableWithoutFeedback>
+                <TouchableWithoutFeedback
+                  onPress={() => {
+                    this.openSectionModal();
+                    this.closeModal();
+                  }}
+                >
                   <View style={styles.mainSingleModal}>
                     <View style={styles.modalIcon}>
                       <Icon name="edit" size={20} color="#97CDF9" />
@@ -146,9 +150,16 @@ export default class extends Component {
             </View>
           </View>
         </Modal>
-        {/* </Swipeable> */}
 
         <TodoModal ref={"todoModal"} />
+        <SectionModal ref={"sectionModal"} />
+
+        <ActionButton
+          buttonColor="#8268FC"
+          onPress={() => {
+            this.openModal();
+          }}
+        />
       </View>
     );
   }

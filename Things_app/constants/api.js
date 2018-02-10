@@ -21,6 +21,16 @@ class Api {
     const { data } = await axios.get(`${this.path}/todos`);
     return data;
   }
+
+  async createSection(args) {
+    try {
+      const res = await axios.post(`${this.path}/section/new`, { ...args });
+      return res;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
 }
 
 export { Api };
