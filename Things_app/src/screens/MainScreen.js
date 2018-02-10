@@ -9,17 +9,71 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   Animated,
-  ScrollView
+  ScrollView,
+  FlatList,
+  CheckBox
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ActionButton from "react-native-action-button";
-
+import { Api } from "../../constants/api";
 import TodoModal from "../components/TodoModal";
 import SectionModal from "../components/SectionModal";
 // import Swipeable from "../components/Swipeable";
 import Today from "./Today";
 
 var screen = Dimensions.get("window");
+
+const api = new Api();
+
+// class consist of render function for single section item
+class MySectionListItem extends React.PureComponent {
+  render() {
+    return (
+      <TouchableWithoutFeedback>
+        <View
+          style={{
+            flexDirection: "column",
+            marginTop: 16
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center"
+            }}
+          >
+            <CheckBox
+            // value={this.state.checked}
+            // onValueChange={() =>
+            //   this.setState({ checked: !this.state.checked })
+            // }
+            />
+            <Text
+              style={{
+                fontSize: 18,
+                color: "#000",
+                marginLeft: 4
+              }}
+            >
+              {this.props.title}
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontSize: 16,
+                color: "#8C8C8C",
+                marginLeft: 36
+              }}
+            >
+              {this.props.description}
+            </Text>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  }
+}
 
 export default class extends Component {
   constructor(props) {
@@ -33,8 +87,26 @@ export default class extends Component {
 
   state = {
     modalVisible: false,
-    modalTodoVisible: false
+    modalTodoVisible: false,
+    sections: []
   };
+
+  // Fetch all sections and show it in main screen
+  async componentDidMount() {
+    const sections = await api.fethAllSections();
+    this.setState(sections);
+    console.log(sections);
+  }
+
+  _renderItem = ({ item }) => (
+    <MySectionListItem
+      id={item._id}
+      title={item.title}
+      description={item.description}
+    />
+  );
+
+  _keyExtractor = (item, index) => item._id;
 
   openModal() {
     this.setState({ modalVisible: true });
@@ -82,6 +154,17 @@ export default class extends Component {
           <View style={styles.todo}>
             <Icon name="book" size={20} color="#3BD2A2" />
             <Text style={styles.text}>Logbook</Text>
+          </View>
+
+          <View>
+            <View>
+              <FlatList
+                data={this.state.sections}
+                extraData={this.state}
+                keyExtractor={this._keyExtractor}
+                renderItem={this._renderItem}
+              />
+            </View>
           </View>
         </ScrollView>
 

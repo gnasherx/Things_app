@@ -32,6 +32,7 @@ export default class TodoModal extends Component {
   }
 
   closeToDoModal() {
+    this.setState({ title: "", description: "" });
     this.setState({ modalTodoVisible: false });
   }
 
@@ -51,7 +52,7 @@ export default class TodoModal extends Component {
         title,
         description
       });
-      this.setState({ title: "", description: "" });
+
       this.closeToDoModal();
     }
   };

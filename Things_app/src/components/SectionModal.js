@@ -32,6 +32,7 @@ export default class SectionModal extends Component {
   }
 
   closeToDoModal() {
+    this.setState({ title: "", description: "" });
     this.setState({ modalTodoVisible: false });
   }
 

@@ -31,6 +31,11 @@ class Api {
       throw error;
     }
   }
+
+  async fethAllSections() {
+    const { data } = await axios.get(`${this.path}/section/new`);
+    return data;
+  }
 }
 
 export { Api };
